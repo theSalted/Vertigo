@@ -38,7 +38,9 @@ public class PlayerInteraction : MonoBehaviour
             {
                 // 放下物品
                 heldObject.GetComponent<InteractableObject>().DisableOutline();
-                heldObject.GetComponent<Rigidbody>().isKinematic = false;
+                Rigidbody heldObjectRigidbody = heldObject.GetComponent<Rigidbody>();
+                heldObjectRigidbody.isKinematic = false;
+                heldObjectRigidbody.linearVelocity = Vector3.zero; // 确保物品不会继续移动
                 if (heldObjectCollider != null)
                 {
                     heldObjectCollider.enabled = true;
@@ -46,8 +48,8 @@ public class PlayerInteraction : MonoBehaviour
                 heldObject = null;
                 isHoldingObject = false;
                 uiManager.HideInteractionPrompt();
+                return; // 确保放下物品后立即返回，不再执行后续代码
             }
-            return;
         }
 
         Ray ray = playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
@@ -88,6 +90,8 @@ public class PlayerInteraction : MonoBehaviour
                     isHoldingObject = true;
                     // 设置物品位置到摄像头前方一定距离
                     heldObject.transform.position = playerCamera.transform.position + playerCamera.transform.forward * minHoldDistance;
+                    // 重置物品的旋转为正着的状态
+                    heldObject.transform.rotation = Quaternion.identity;
                     // 保存物品的初始旋转
                     initialRotation = heldObject.transform.rotation;
                     // 隐藏UI提示
@@ -134,7 +138,16 @@ public class PlayerInteraction : MonoBehaviour
 
         // 使用插值平滑地更新物体的位置
         heldObject.transform.position = Vector3.Lerp(heldObject.transform.position, targetPosition, smoothSpeed);
-        // 锁定物品的旋转
-        heldObject.transform.rotation = initialRotation;
+
+        // 调整物品的旋转以贴合碰撞表面
+        if (Physics.Raycast(targetPosition, -playerCamera.transform.forward, out hit, 0.1f))
+        {
+            heldObject.transform.rotation = Quaternion.LookRotation(hit.normal);
+        }
+        else
+        {
+            // 锁定物品的初始旋转
+            heldObject.transform.rotation = initialRotation;
+        }
     }
 }
