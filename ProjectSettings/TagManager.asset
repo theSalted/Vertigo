@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CinemachineTarget
   - Pickable
+  - Portal
   layers:
   - Default
   - TransparentFX
@@ -13,7 +14,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Overlay
   - 
   - 
   - 

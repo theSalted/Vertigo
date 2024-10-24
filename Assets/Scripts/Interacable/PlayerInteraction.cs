@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor.PackageManager;
+using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -18,10 +19,7 @@ public class PlayerInteraction : MonoBehaviour
     void Update()
     {
         Interact();
-        if (isHoldingObject && heldObject != null)
-        {
-            DragObject();
-        }
+        DragObject();
     }
 
     void Interact()
@@ -114,40 +112,49 @@ public class PlayerInteraction : MonoBehaviour
 
     void DragObject()
     {
-        // 从摄像头位置向前发射射线，检测与其他物体的碰撞
-        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
-        RaycastHit hit;
-
-        float targetDistance = maxHoldDistance;
-
-        if (Physics.Raycast(ray, out hit, maxHoldDistance))
+        // Short-circuit if heldObject condition has not met
+        if (isHoldingObject && heldObject != null) 
         {
-            // 如果射线碰撞到物体，调整持有物品的距离
-            targetDistance = Mathf.Clamp(hit.distance, minHoldDistance, maxHoldDistance);
-        }
+            // 从摄像头位置向前发射射线，检测与其他物体的碰撞
+            Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+            RaycastHit hit;
+            GameObject hitObject = null;
+            float targetDistance = maxHoldDistance;
 
-        // 保持物品在摄像头前方一定距离
-        Vector3 targetPosition = playerCamera.transform.position + playerCamera.transform.forward * targetDistance;
+            if (Physics.Raycast(ray, out hit, maxHoldDistance))
+            {
+                // 如果射线碰撞到物体，调整持有物品的距离
+                targetDistance = Mathf.Clamp(hit.distance, minHoldDistance, maxHoldDistance);
+                hitObject = hit.collider.gameObject;
+            }
 
-        // 检测物体是否会穿过地板或其他物体
-        if (Physics.Raycast(targetPosition, Vector3.down, out hit, 1f))
-        {
-            // 如果物体会穿过地板或其他物体，调整物体的位置
-            targetPosition = hit.point + Vector3.up * 0.5f; // 调整高度，确保物体在地板上方
-        }
+            
 
-        // 使用插值平滑地更新物体的位置
-        heldObject.transform.position = Vector3.Lerp(heldObject.transform.position, targetPosition, smoothSpeed);
+            // 保持物品在摄像头前方一定距离
+            Vector3 targetPosition = playerCamera.transform.position + playerCamera.transform.forward * targetDistance;
 
-        // 调整物品的旋转以贴合碰撞表面
-        if (Physics.Raycast(targetPosition, -playerCamera.transform.forward, out hit, 0.1f))
-        {
-            heldObject.transform.rotation = Quaternion.LookRotation(hit.normal);
-        }
-        else
-        {
-            // 锁定物品的初始旋转
-            heldObject.transform.rotation = initialRotation;
+            // 检测物体是否会穿过地板或其他物体
+            bool isPortal = hitObject == null ? false : hit.collider.gameObject.tag == "Portal"; // 检测物体是否是传送门
+            Debug.Log("isPortal: " + isPortal);
+            if (!isPortal && Physics.Raycast(targetPosition, Vector3.down, out hit, 1f) )
+            {
+                // 如果物体会穿过地板或其他物体，调整物体的位置
+                targetPosition = hit.point + Vector3.up * 0.5f; // 调整高度，确保物体在地板上方
+            }
+
+            // 使用插值平滑地更新物体的位置
+            heldObject.transform.position = Vector3.Lerp(heldObject.transform.position, targetPosition, smoothSpeed);
+
+            // 调整物品的旋转以贴合碰撞表面
+            if (Physics.Raycast(targetPosition, -playerCamera.transform.forward, out hit, 0.1f))
+            {
+                heldObject.transform.rotation = Quaternion.LookRotation(hit.normal);
+            }
+            else
+            {
+                // 锁定物品的初始旋转
+                heldObject.transform.rotation = initialRotation;
+            }
         }
     }
 }

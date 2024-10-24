@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 509346180715946940}
   m_Layer: 0
   m_Name: Portal
-  m_TagString: Untagged
+  m_TagString: Portal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 1315545412906965794}
   m_Layer: 0
   m_Name: Screen
-  m_TagString: Untagged
+  m_TagString: Portal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 8935273393062910897}
   m_Layer: 0
   m_Name: Mesh
-  m_TagString: Untagged
+  m_TagString: Portal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -232,7 +232,7 @@ GameObject:
   - component: {fileID: 7994451583795345587}
   m_Layer: 0
   m_Name: PortalCamera
-  m_TagString: Untagged
+  m_TagString: Portal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
