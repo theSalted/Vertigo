@@ -1631,8 +1631,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMaterial: {fileID: 2100000, guid: a37a6c0122dede643a8f2e9d20b8f164, type: 2}
---- !u!64 &2060264471
-MeshCollider:
+--- !u!65 &2060264471
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1649,10 +1649,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4339173626183514749, guid: 1b8246f653d01a44580a1aaedf476870, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 1.9684541, y: 0.6454723, z: 2.531898}
+  m_Center: {x: 0.000000059604645, y: 0.32685328, z: 0}
 --- !u!1001 &2084445384
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1770,8 +1769,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bed
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2687724409164093351, guid: 53d10ea04c72c9d418656deb97136119, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
