@@ -11,12 +11,12 @@ public class Portal : MonoBehaviour {
     [Header("Advanced Settings")]
     public float nearClipOffset = 0.05f;
     public float nearClipLimit = 0.2f;
-
-    [Header("Projection Settings")]
-    [Tooltip("Adjusts the amount of projection exaggeration. Default is 1.")]
-    public float projectionScale = 1.0f;
+    [Tooltip("Controls the thickness of the portal screen to prevent clipping")]
+    public float screenThickness = 0.1f;
+    
 
     // Private variables
+    float projectionScale = 1.0f;
     RenderTexture viewTexture;
     Camera portalCam;
     Camera playerCam;
@@ -32,6 +32,19 @@ public class Portal : MonoBehaviour {
         screenMeshFilter = screen.GetComponent<MeshFilter>();
         linkedScreenMeshFilter = linkedPortal.screen.GetComponent<MeshFilter>();
         screen.material.SetInt("displayMask", 1);
+        UpdateProjectionScale();
+    }
+
+    void UpdateProjectionScale() {
+        if (linkedPortal != null) {
+            // Assuming uniform scaling (using only x scale since all scales should be the same)
+            float thisScale = transform.localScale.x;
+            float linkedScale = linkedPortal.transform.localScale.x;
+            
+            // If this portal is smaller than the linked portal, we need to make things appear larger
+            // If this portal is larger than the linked portal, we need to make things appear smaller
+            projectionScale = linkedScale / thisScale;
+        }
     }
 
     void LateUpdate() {
@@ -60,12 +73,10 @@ public class Portal : MonoBehaviour {
                 Vector3 newPosition = m.GetColumn(3);
                 Quaternion newRotation = Quaternion.LookRotation(m.GetColumn(2), m.GetColumn(1));
 
-                // Determine scale factor based on the direction
-                float scaleFactor = 0.5f;
-                if (traveller.transform.localScale.x < 1.0f) {
-                    // If already scaled down, scale back up
-                    scaleFactor = 2.0f;
-                }
+                // Calculate scale factor based on the ratio of portal scales
+                float sourceScale = transform.localScale.x;
+                float targetScale = linkedPortal.transform.localScale.x;
+                float scaleFactor = targetScale / sourceScale;
 
                 Vector3 newScale = traveller.transform.localScale * scaleFactor;
 
@@ -299,11 +310,6 @@ public class Portal : MonoBehaviour {
 
     // Sets the thickness of the portal screen to prevent clipping
     float ProtectScreenFromClipping(Vector3 viewPoint) {
-        float halfHeight = playerCam.nearClipPlane * Mathf.Tan(playerCam.fieldOfView * 0.5f * Mathf.Deg2Rad);
-        float halfWidth = halfHeight * playerCam.aspect;
-        float dstToNearClipPlaneCorner = new Vector3(halfWidth, halfHeight, playerCam.nearClipPlane).magnitude;
-        float screenThickness = dstToNearClipPlaneCorner;
-
         Transform screenT = screen.transform;
         bool camFacingSameDirAsPortal = Vector3.Dot(transform.forward, transform.position - viewPoint) > 0;
         screenT.localScale = new Vector3(screenT.localScale.x, screenT.localScale.y, screenThickness);
