@@ -34,11 +34,11 @@ namespace InputAssets
         public float FallTimeout = 0.15f;
 
         [Header("Player Grounded")]
-        [Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
+        [Tooltip("If the character is grounded or not")]
         public bool Grounded = true;
         [Tooltip("Useful for rough ground")]
         public float GroundedOffset = -0.14f;
-        [Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
+        [Tooltip("The radius of the grounded check")]
         public float GroundedRadius = 0.5f;
         [Tooltip("What layers the character uses as ground")]
         public LayerMask GroundLayers;
@@ -46,13 +46,13 @@ namespace InputAssets
         public float StepOffset = 0.5f;
 
         [Header("Cinemachine")]
-        [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
+        [Tooltip("The follow target set in the Cinemachine Virtual Camera")]
         public GameObject CinemachineCameraTarget;
         [Tooltip("How far in degrees can you move the camera up")]
         public float TopClamp = 90.0f;
         [Tooltip("How far in degrees can you move the camera down")]
         public float BottomClamp = -90.0f;
-        
+
         public bool allowMovement = true;
         public bool allowCameraRotation = true;
 
@@ -111,7 +111,7 @@ namespace InputAssets
 #if ENABLE_INPUT_SYSTEM
             _playerInput = GetComponent<PlayerInput>();
 #else
-            Debug.LogError("Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
+            Debug.LogError("Starter Assets package is missing dependencies.");
 #endif
 
             // reset our timeouts on start
@@ -130,7 +130,7 @@ namespace InputAssets
         {
             JumpAndGravity();
             GroundedCheck();
-            
+
             if (allowMovement)
             {
                 Move();
@@ -289,32 +289,49 @@ namespace InputAssets
             Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
         }
 
-        public override void Teleport(Transform fromPortal, Transform toPortal, Vector3 pos, Quaternion rot)
+        // Updated Teleport method to handle scaling
+        public override void Teleport(Transform fromPortal, Transform toPortal, Vector3 pos, Quaternion rot, Vector3 scale)
         {
+            // Calculate scale factor
+            float scaleFactor = scale.x / transform.localScale.x;
+
             // Update position
             transform.position = pos;
 
-            // Calculate the rotation difference
+            // Update rotation
             Quaternion deltaRotation = rot * Quaternion.Inverse(transform.rotation);
-
-            // Update yaw and pitch
             Vector3 eulerRot = deltaRotation.eulerAngles;
-            _yaw -= eulerRot.y;
+            _yaw += eulerRot.y;
             _pitch += eulerRot.x;
 
             // Clamp pitch
             _pitch = ClampAngle(_pitch, BottomClamp, TopClamp);
 
-            // Update player and camera rotation
+            // Apply rotation
             transform.rotation = Quaternion.Euler(0.0f, _yaw, 0.0f);
             CinemachineCameraTarget.transform.localRotation = Quaternion.Euler(_pitch, 0.0f, 0.0f);
 
+            // Adjust scale
+            transform.localScale = scale;
+
+            // Adjust movement speed and gravity based on scale
+            MoveSpeed *= scaleFactor;
+            SprintSpeed *= scaleFactor;
+            JumpHeight *= scaleFactor;
+            Gravity *= scaleFactor;
+
+            // Adjust CharacterController parameters
+            _controller.height *= scaleFactor;
+            _controller.radius *= scaleFactor;
+            _controller.stepOffset *= scaleFactor;
+            _controller.center *= scaleFactor;
+
+            // Adjust vertical velocity
+            _verticalVelocity *= scaleFactor;
+
             // Transform the player's velocity
             Vector3 originalVelocity = _playerVelocity;
-            _playerVelocity = toPortal.TransformVector(fromPortal.InverseTransformVector(originalVelocity));
-
-            // Update vertical velocity
-            _verticalVelocity = _playerVelocity.y;
+            _playerVelocity = toPortal.TransformVector(fromPortal.InverseTransformVector(originalVelocity)) * scaleFactor;
 
             // Sync transforms
             Physics.SyncTransforms();
