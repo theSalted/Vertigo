@@ -1,5 +1,4 @@
-﻿using UnityEditor.PackageManager;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 public class PlayerInteraction : MonoBehaviour
@@ -11,20 +10,21 @@ public class PlayerInteraction : MonoBehaviour
     public UIManager uiManager; // 引用UIManager
     public float smoothSpeed = 0.1f; // 平滑速度
     public float bulletRadius = 0.1f; // 子弹半径
+    public GameObject followCube; // 跟随摄像机的Cube
+
 
     private bool isHoldingObject = false;
     private GameObject heldObject = null;
+    private Vector3 originalScale;
     private Quaternion initialRotation;
     private Collider heldObjectCollider;
     private GameObject lastHighlightedObject = null;
     private List<GameObject> inventory = new List<GameObject>(); // 仓库
-    private int originalLayer; // 存储物品的原始Layer
 
     void Update()
     {
         Interact();
         DragObject();
-        RotateHeldObject();
     }
 
     void Interact()
@@ -91,12 +91,12 @@ public class PlayerInteraction : MonoBehaviour
                     }
                     isHoldingObject = true;
                     inventory.Add(heldObject); // 将物品添加到仓库
-                    originalLayer = heldObject.layer; // 存储原始Layer
-                    heldObject.SetActive(false); // 隐藏物品
-                    heldObject = null; // 清空当前持有物品
+
+                    // Replace the followCube with the heldObject
+                    ReplaceFollowCube(heldObject);
+
                     // 隐藏UI提示
                     uiManager.HideInteractionPrompt();
-                    uiManager.ShowItem(hitObject); // 显示物品在UI中
                     Debug.Log("Picked up: " + hitObject.name);
                 }
             }
@@ -120,39 +120,17 @@ public class PlayerInteraction : MonoBehaviour
             // 从仓库中取出最后一个物品
             heldObject = inventory[inventory.Count - 1];
             inventory.RemoveAt(inventory.Count - 1);
-
-            // 确保物品被激活
-            heldObject.SetActive(true);
-            Debug.Log("DropHeldObject: " + heldObject.name + " is now active.");
-
-            // 恢复原始Layer
-            heldObject.layer = originalLayer;
-            Debug.Log("DropHeldObject: " + heldObject.name + " layer set to " + originalLayer);
-
-            // 获取物品的Rigidbody组件
+            heldObject.SetActive(true); // 显示物品
             Rigidbody heldObjectRigidbody = heldObject.GetComponent<Rigidbody>();
-            if (heldObjectRigidbody != null)
-            {
-                heldObjectRigidbody.isKinematic = false;
-                heldObjectRigidbody.linearVelocity = Vector3.zero; // 确保物品不会继续移动
-                Debug.Log("DropHeldObject: " + heldObject.name + " Rigidbody set to non-kinematic.");
-            }
-            else
-            {
-                Debug.LogWarning("DropHeldObject: " + heldObject.name + " does not have a Rigidbody component.");
-            }
-
-            // 恢复物品的Collider
-            heldObjectCollider = heldObject.GetComponent<Collider>();
+            heldObjectRigidbody.isKinematic = false;
+            heldObjectRigidbody.linearVelocity = Vector3.zero; // 确保物品不会继续移动
             if (heldObjectCollider != null)
             {
                 heldObjectCollider.enabled = true;
-                Debug.Log("DropHeldObject: " + heldObject.name + " Collider enabled.");
             }
-            else
-            {
-                Debug.LogWarning("DropHeldObject: " + heldObject.name + " does not have a Collider component.");
-            }
+
+            // 恢复物体的原始缩放
+            heldObject.transform.localScale = originalScale;
 
             // 将物品放置在屏幕中心位置
             Ray ray = playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
@@ -181,12 +159,39 @@ public class PlayerInteraction : MonoBehaviour
                 dropPosition = hit.point + Vector3.up * 0.5f; // 调整高度，确保物品在地板上方
             }
 
+            // 调整位置以避免碰撞
+            dropPosition = FindValidDropPosition(dropPosition, heldObjectCollider);
+
             heldObject.transform.position = dropPosition;
             isHoldingObject = false;
             uiManager.HideInteractionPrompt();
-            uiManager.HideItem(); // 隐藏物品在UI中
             Debug.Log("Dropped: " + heldObject.name);
+
+            // 删除UIElement下的所有子对象
+            GameObject uiElement = GameObject.Find("UIElement");
+            if (uiElement != null)
+            {
+                foreach (Transform child in uiElement.transform)
+                {
+                    GameObject.Destroy(child.gameObject);
+                }
+            }
         }
+    }
+
+
+    Vector3 FindValidDropPosition(Vector3 initialPosition, Collider objectCollider)
+    {
+        Vector3 validPosition = initialPosition;
+        Collider[] colliders = Physics.OverlapBox(validPosition, objectCollider.bounds.extents);
+
+        while (colliders.Length > 0)
+        {
+            validPosition += Vector3.up * 0.1f; // 向上移动位置
+            colliders = Physics.OverlapBox(validPosition, objectCollider.bounds.extents);
+        }
+
+        return validPosition;
     }
 
     void DragObject()
@@ -211,7 +216,8 @@ public class PlayerInteraction : MonoBehaviour
             Vector3 targetPosition = playerCamera.transform.position + playerCamera.transform.forward * targetDistance;
 
             // 检测物体是否会穿过地板或其他物体
-            bool isPortal = hitObject == null ? false : hit.collider.gameObject.tag == "Portal";
+            bool isPortal = hitObject == null ? false : hit.collider.gameObject.CompareTag("Portal"); // 检测物体是否是传送门
+            Debug.Log("isPortal: " + isPortal);
             if (!isPortal && Physics.Raycast(targetPosition, Vector3.down, out hit, 1f))
             {
                 // 如果物体会穿过地板或其他物体，调整物体的位置
@@ -234,12 +240,45 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
-    void RotateHeldObject()
+    void ReplaceFollowCube(GameObject newObject)
     {
-        if (isHoldingObject && heldObject != null)
+        if (followCube != null)
         {
-            heldObject.transform.Rotate(Vector3.up, 20 * Time.deltaTime, Space.World);
+            // 存储原始缩放
+            originalScale = newObject.transform.localScale;
+
+            // 隐藏原物品
+            newObject.SetActive(false);
+
+            // 更新 followCube 为新物品
+            followCube = newObject;
+
+            // 将新物品移动到UIElementLayer图层
+            int uiElementLayer = LayerMask.NameToLayer("Overlay");
+
+            // 替换UIElement下的模型
+            GameObject uiElement = GameObject.Find("UIElement");
+            if (uiElement != null)
+            {
+                // 删除UIElement下的所有子对象
+                foreach (Transform child in uiElement.transform)
+                {
+                    GameObject.Destroy(child.gameObject);
+                }
+
+                // 实例化新物品的克隆体并设置为UIElement的子对象
+                GameObject newUIObject = Instantiate(newObject, uiElement.transform);
+                newUIObject.transform.localScale = new Vector3(0.22f, 0.22f, 0.22f);
+                newUIObject.transform.localPosition = new Vector3(1, 1, 1);
+                newUIObject.layer = uiElementLayer; // 确保新UI对象也在UIElementLayer图层
+
+
+                newUIObject.SetActive(true);
+
+
+                // 添加旋转脚本
+                newUIObject.AddComponent<RotateObject>();
+            }
         }
     }
 }
-
