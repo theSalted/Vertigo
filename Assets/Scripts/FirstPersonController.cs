@@ -150,8 +150,29 @@ namespace InputAssets
             // set sphere position, with offset
             Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
             Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
-        }
 
+            // 如果球体检测到地面，再进行射线检测以确保玩家确实在地面上
+            if (Grounded)
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position, Vector3.down, out hit, GroundedRadius + 0.1f, GroundLayers))
+                {
+                    // 确保射线检测到的地面距离玩家不超过一定范围
+                    if (hit.distance <= GroundedRadius + 0.1f)
+                    {
+                        Grounded = true;
+                    }
+                    else
+                    {
+                        Grounded = false;
+                    }
+                }
+                else
+                {
+                    Grounded = false;
+                }
+            }
+        }
         private void CameraRotation()
         {
             // if there is an input
@@ -174,7 +195,6 @@ namespace InputAssets
                 transform.rotation = Quaternion.Euler(0.0f, _yaw, 0.0f);
             }
         }
-
         private void Move()
         {
             // set target speed based on move speed, sprint speed and if sprint is pressed
@@ -268,6 +288,12 @@ namespace InputAssets
             {
                 _verticalVelocity += Gravity * Time.deltaTime;
             }
+
+            // Ensure the player doesn't move upwards when colliding with objects
+            if (_controller.collisionFlags == CollisionFlags.Above && _verticalVelocity > 0)
+            {
+                _verticalVelocity = 0;
+            }
         }
 
         private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
@@ -332,9 +358,6 @@ namespace InputAssets
             // Transform the player's velocity
             Vector3 originalVelocity = _playerVelocity;
             _playerVelocity = toPortal.TransformVector(fromPortal.InverseTransformVector(originalVelocity)) * scaleFactor;
-
-            // Sync transforms
-            Physics.SyncTransforms();
         }
     }
 }
