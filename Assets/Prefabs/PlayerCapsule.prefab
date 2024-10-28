@@ -390,3 +390,5 @@ MonoBehaviour:
   maxHoldDistance: 5
   uiManager: {fileID: 0}
   smoothSpeed: 0.1
+  bulletRadius: 0.1
+  followCube: {fileID: 0}

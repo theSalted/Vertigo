@@ -82,8 +82,8 @@ public class Portal : MonoBehaviour {
 
                 traveller.Teleport(transform, linkedPortal.transform, newPosition, newRotation, newScale);
 
-                traveller.graphicsClone.transform.SetPositionAndRotation(positionOld, rotationOld);
-                traveller.graphicsClone.transform.localScale = scaleOld;
+                // traveller.graphicsClone.transform.SetPositionAndRotation(positionOld, rotationOld);
+                // traveller.graphicsClone.transform.localScale = scaleOld;
 
                 linkedPortal.OnTravellerEnterPortal(traveller);
                 trackedTravellers.RemoveAt(i);
@@ -91,8 +91,8 @@ public class Portal : MonoBehaviour {
 
             } else {
                 // Update graphics clone
-                traveller.graphicsClone.transform.SetPositionAndRotation(traveller.transform.position, traveller.transform.rotation);
-                traveller.graphicsClone.transform.localScale = traveller.transform.localScale;
+                // traveller.graphicsClone.transform.SetPositionAndRotation(traveller.transform.position, traveller.transform.rotation);
+                // traveller.graphicsClone.transform.localScale = traveller.transform.localScale;
 
                 traveller.previousOffsetFromPortal = offsetFromPortal;
             }
@@ -246,7 +246,7 @@ public class Portal : MonoBehaviour {
         var offsetFromPortalToCam = portalCamPos - transform.position;
         foreach (var linkedTraveller in linkedPortal.trackedTravellers) {
             var travellerPos = linkedTraveller.graphicsObject.transform.position;
-            var clonePos = linkedTraveller.graphicsClone.transform.position;
+            // var clonePos = linkedTraveller.graphicsClone.transform.position;
             bool cloneOnSameSideAsCam = linkedPortal.SideOfPortal(travellerPos) != SideOfPortal(portalCamPos);
             if (cloneOnSameSideAsCam) {
                 linkedTraveller.SetSliceOffsetDst(0.1f, true);
