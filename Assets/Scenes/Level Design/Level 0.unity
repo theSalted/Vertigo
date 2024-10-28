@@ -12478,24 +12478,6 @@ Transform:
   - {fileID: 501362907}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1119848951 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 147744, guid: a1fa91c4522b0dd46bee47da22752eb0, type: 3}
-  m_PrefabInstance: {fileID: 1733241486}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1119848955
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1119848951}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 038d613f0bedc3943b77f549fd892d3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMaterial: {fileID: 2100000, guid: a37a6c0122dede643a8f2e9d20b8f164, type: 2}
 --- !u!1 &1144677186
 GameObject:
   m_ObjectHideFlags: 0
@@ -19646,7 +19628,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 147744, guid: a1fa91c4522b0dd46bee47da22752eb0, type: 3}
       propertyPath: m_TagString
-      value: Pickable
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 456616, guid: a1fa91c4522b0dd46bee47da22752eb0, type: 3}
       propertyPath: m_LocalScale.x
@@ -19707,10 +19689,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 147744, guid: a1fa91c4522b0dd46bee47da22752eb0, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1119848955}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1fa91c4522b0dd46bee47da22752eb0, type: 3}
 --- !u!1001 &1737083138
 PrefabInstance:
