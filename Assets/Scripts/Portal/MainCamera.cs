@@ -21,6 +21,6 @@ public class MainCamera : MonoBehaviour {
             portals[i].PostPortalRender ();
         }
 
-    }
+    }   
 
 }
