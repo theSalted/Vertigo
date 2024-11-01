@@ -217,13 +217,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55919ac34a26952479f3fc91f777b2fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  graphicsObject: {fileID: 0}
-  MoveSpeed: 4
-  SprintSpeed: 6
+  graphicsObject: {fileID: 5393215578589016642}
+  MoveSpeed: 10
+  SprintSpeed: 20
   RotationSpeed: 1
   SpeedChangeRate: 10
-  JumpHeight: 1.2
-  Gravity: -15
+  JumpHeight: 2
+  Gravity: -40
   JumpTimeout: 0.1
   FallTimeout: 0.15
   Grounded: 1
@@ -232,7 +232,7 @@ MonoBehaviour:
   GroundLayers:
     serializedVersion: 2
     m_Bits: 1
-  StepOffset: 0.5
+  StepOffset: 2
   CinemachineCameraTarget: {fileID: 4135013735270702863}
   TopClamp: 89
   BottomClamp: -89
@@ -392,3 +392,4 @@ MonoBehaviour:
   smoothSpeed: 0.1
   bulletRadius: 0.1
   followCube: {fileID: 0}
+  dropMaxHeightOffset: 3
