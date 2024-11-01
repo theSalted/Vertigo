@@ -9,6 +9,7 @@ TagManager:
   - Portal
   - Nonplaceable
   - Bed
+  - MovableObject
   layers:
   - Default
   - TransparentFX
