@@ -8,6 +8,7 @@ public class RemoteControlCar : MonoBehaviour
     public Camera playerCamera; // 玩家摄像机
     public Camera carCamera; // 遥控车摄像机
     public Collider controllerCollider; // 控制器的触发器
+    public Transform carDefaultForward; // 车辆默认朝向
     private bool isControllingCar = false; // 是否在控制遥控车
     private bool isPlayerNearController = false; // 玩家是否接近控制器
 
@@ -52,8 +53,9 @@ public class RemoteControlCar : MonoBehaviour
         float move = Input.GetAxis("Vertical") * Time.deltaTime * 10.0f;
         float turn = Input.GetAxis("Horizontal") * Time.deltaTime * 50.0f;
 
-        car.transform.Translate(0, 0, move);
-        car.transform.Rotate(0, turn, 0);
+        // 使用车辆默认朝向来计算移动和旋转
+        car.transform.Translate(carDefaultForward.forward * move, Space.World);
+        car.transform.Rotate(carDefaultForward.up, turn);
     }
 
     void OnTriggerEnter(Collider other)
@@ -72,4 +74,3 @@ public class RemoteControlCar : MonoBehaviour
         }
     }
 }
-
