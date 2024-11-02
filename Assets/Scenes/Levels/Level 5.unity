@@ -1582,15 +1582,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9445dbabcc605034d8b0c872bd242d91, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.5616875
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9445dbabcc605034d8b0c872bd242d91, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.7945094
+      value: 5.9999995
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9445dbabcc605034d8b0c872bd242d91, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -14.627211
+      value: -14
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9445dbabcc605034d8b0c872bd242d91, type: 3}
       propertyPath: m_LocalRotation.w
@@ -13232,13 +13232,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1569291811}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.000000067055225, y: 0.7071068, z: -0.18301272, w: 0.6830127}
-  m_LocalPosition: {x: -60.93185, y: 38.517635, z: 60}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.09229593, y: 0.7010574, z: -0.09229593, w: 0.7010574}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.019338617, y: 0.01933862, z: 0.019338619}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 15, y: 90, z: -15}
+  m_Father: {fileID: 1120811521445292871}
+  m_LocalEulerAnglesHint: {x: 15, y: 90, z: 0}
 --- !u!1 &1571182108
 GameObject:
   m_ObjectHideFlags: 0
@@ -21448,6 +21448,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2034360443144006674, guid: 58ad8d7066405e846a8798096bc00c76, type: 3}
       insertIndex: 111
       addedObject: {fileID: 1360081269}
+    - targetCorrespondingSourceObject: {fileID: 2034360443144006674, guid: 58ad8d7066405e846a8798096bc00c76, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1569291813}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1688938542681831080, guid: 58ad8d7066405e846a8798096bc00c76, type: 3}
       insertIndex: -1
@@ -21638,6 +21641,5 @@ SceneRoots:
   - {fileID: 1120811521445292866}
   - {fileID: 229923630}
   - {fileID: 758084902}
-  - {fileID: 1569291813}
   - {fileID: 44715299}
   - {fileID: 1964864118}
