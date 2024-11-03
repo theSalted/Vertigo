@@ -82,17 +82,22 @@ public class Portal : MonoBehaviour {
 
                 traveller.Teleport(transform, linkedPortal.transform, newPosition, newRotation, newScale);
 
-                // traveller.graphicsClone.transform.SetPositionAndRotation(positionOld, rotationOld);
-                // traveller.graphicsClone.transform.localScale = scaleOld;
+                // TODO: Slicing does not work correctly. Temporarily removing cloning functionality.
+                /*
+                traveller.graphicsClone.transform.SetPositionAndRotation(positionOld, rotationOld);
+                traveller.graphicsClone.transform.localScale = scaleOld;
+                */
 
                 linkedPortal.OnTravellerEnterPortal(traveller);
                 trackedTravellers.RemoveAt(i);
                 i--;
 
             } else {
-                // Update graphics clone
-                // traveller.graphicsClone.transform.SetPositionAndRotation(traveller.transform.position, traveller.transform.rotation);
-                // traveller.graphicsClone.transform.localScale = traveller.transform.localScale;
+                // TODO: Slicing does not work correctly. Temporarily removing graphics clone updates.
+                /*
+                traveller.graphicsClone.transform.SetPositionAndRotation(traveller.transform.position, traveller.transform.rotation);
+                traveller.graphicsClone.transform.localScale = traveller.transform.localScale;
+                */
 
                 traveller.previousOffsetFromPortal = offsetFromPortal;
             }
@@ -144,7 +149,7 @@ public class Portal : MonoBehaviour {
         for (int i = 0; i < recursionLimit; i++) {
             if (i > 0) {
                 // No need for recursive rendering if linked portal is not visible through this portal
-                if (!CameraUtility.BoundsOverlap(screenMeshFilter, linkedPortal.screenMeshFilter, portalCam)) {
+                if (!CameraUtility.BoundsOverlap(screenMeshFilter, linkedScreenMeshFilter, portalCam)) {
                     break;
                 }
             }
@@ -224,6 +229,8 @@ public class Portal : MonoBehaviour {
     }
 
     void HandleClipping() {
+        // TODO: Slicing does not work correctly. Temporarily removing slicing and cloning functionality.
+        /*
         // Handle slicing of objects to prevent them from appearing through the portal
         float screenThickness = linkedPortal.ProtectScreenFromClipping(portalCam.transform.position);
 
@@ -261,6 +268,7 @@ public class Portal : MonoBehaviour {
                 linkedTraveller.SetSliceOffsetDst(-screenThickness, false);
             }
         }
+        */
     }
 
     // Called once all portals have been rendered, but before the player camera renders
@@ -289,6 +297,8 @@ public class Portal : MonoBehaviour {
 
     // Updates the slice parameters for the traveller's materials
     void UpdateSliceParams(PortalTraveller traveller) {
+        // TODO: Slicing does not work correctly. Temporarily removing slice parameter updates.
+        /*
         // Calculate slice normal
         int side = SideOfPortal(traveller.transform.position);
         Vector3 sliceNormal = transform.forward * -side;
@@ -306,6 +316,7 @@ public class Portal : MonoBehaviour {
             traveller.cloneMaterials[i].SetVector("sliceCentre", cloneSlicePos);
             traveller.cloneMaterials[i].SetVector("sliceNormal", cloneSliceNormal);
         }
+        */
     }
 
     // Sets the thickness of the portal screen to prevent clipping
