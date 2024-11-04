@@ -18,7 +18,8 @@ public class Portal : MonoBehaviour {
     // Private variables
     float projectionScale = 1.0f;
     RenderTexture viewTexture;
-    Camera portalCam;
+    [HideInInspector]
+    public Camera portalCam;
     Camera playerCam;
     List<PortalTraveller> trackedTravellers;
     MeshFilter screenMeshFilter;

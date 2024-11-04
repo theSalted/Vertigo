@@ -150,7 +150,8 @@ public class PaintingPortal : MonoBehaviour
     public float viewingHeight = 2f;
 
     // Private variables
-    private Camera portalCam;
+    
+    public Camera portalCam;
     private Camera playerCam;
     private RenderTexture viewTexture;
     private MeshFilter screenMeshFilter;
@@ -190,7 +191,7 @@ public class PaintingPortal : MonoBehaviour
         }
 
         // Set the field of view and aspect ratio
-        portalCam.fieldOfView = playerCam.fieldOfView;
+        // portalCam.fieldOfView = playerCam.fieldOfView;
         portalCam.aspect = playerCam.aspect;
 
         // Initialize shader properties
