@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Portal
-  m_Shader: {fileID: 4800000, guid: a39346e2f7230f14fbad3864a23dca1a, type: 3}
+  m_Name: Painting
+  m_Shader: {fileID: 4800000, guid: 732e90ae1a8f6421c8cbd4ef65058520, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
