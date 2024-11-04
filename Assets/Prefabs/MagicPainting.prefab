@@ -85,12 +85,13 @@ MonoBehaviour:
   portal: {fileID: 0}
   painting: {fileID: 0}
   fov: 17.2
+  rotationYOffset: 0
   portalWidth: 2
   portalHeight: 4
   viewingDistance: 10
   isPlayerInRange: 0
   transitionDuration: 1
-  pushDistance: 1
+  pushDistance: -0.1
   pushDuration: 0.5
 --- !u!1 &3143970563024365728
 GameObject:
@@ -133,8 +134,8 @@ Camera:
   m_GameObject: {fileID: 3143970563024365728}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.5176471, g: 0.5882353, b: 0.6784314, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -226,9 +227,9 @@ MonoBehaviour:
   linkedPortal: {fileID: 0}
   screen: {fileID: 5252518147039232474}
   recursionLimit: 5
-  nearClipOffset: 0.05
+  nearClipOffset: 0
   nearClipLimit: 0
-  screenThickness: 0.2
+  screenThickness: 0.22
   portalCam: {fileID: 0}
 --- !u!65 &8167430261932288120
 BoxCollider:
@@ -249,8 +250,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4.05, y: 3.0777488, z: 1.1847057}
-  m_Center: {x: 0, y: 1.5738745, z: 0}
+  m_Size: {x: 4.05, y: 3.0777488, z: 0.95865417}
+  m_Center: {x: 2.5119462e-11, y: 1.5738745, z: 0}
 --- !u!54 &3743978949832882647
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -405,8 +406,8 @@ Camera:
   m_GameObject: {fileID: 5446580246998692812}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.5176471, g: 0.5882353, b: 0.6784314, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -429,7 +430,7 @@ Camera:
     height: 1
   near clip plane: 0.2
   far clip plane: 500
-  field of view: 40
+  field of view: 1.72
   orthographic: 0
   orthographic size: 5
   m_Depth: -2

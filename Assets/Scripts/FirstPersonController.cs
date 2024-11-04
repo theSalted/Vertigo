@@ -364,5 +364,11 @@ namespace InputAssets
             Vector3 originalVelocity = _playerVelocity;
             _playerVelocity = toPortal.TransformVector(fromPortal.InverseTransformVector(originalVelocity)) * scaleFactor;
         }
+
+        public void ResetYawAndPitch()
+        {
+            _yaw = transform.eulerAngles.y;
+            _pitch = CinemachineCameraTarget.transform.localEulerAngles.x;
+        }
     }
 }

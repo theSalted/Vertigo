@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using InputAssets;
+using Unity.VisualScripting;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
@@ -22,6 +23,7 @@ public class LinkedPortalController : MonoBehaviour
 
     [Tooltip("Painting Mode Settings")]
     public float fov = 17.2f;
+    public float rotationYOffset = 0.0f;
 
     [Tooltip("Detection Volume Settings")]
     public float portalWidth = 2.0f;      // Width of the portal (X-axis)
@@ -271,7 +273,7 @@ public class LinkedPortalController : MonoBehaviour
         linkedPortal.mode = mode;
         // wait for a short time before pushing the player
         // yield return new WaitForSeconds(0.5f);
-
+        // yield return new WaitForSecondsRealtime(120f);
         // Stage 2: Move to stage2Pos
         elapsedTime = 0f;
 
@@ -289,6 +291,7 @@ public class LinkedPortalController : MonoBehaviour
         playerController.transform.position = stage2Pos;
         // rotation should be zero
         // Re-enable player movement and rotation
+        playerController.ResetYawAndPitch();
         playerController.allowCameraRotation = true;
         playerController.allowMovement = true;
 
