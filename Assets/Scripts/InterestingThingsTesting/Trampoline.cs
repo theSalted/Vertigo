@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using InputAssets;
+using UnityEngine;
 
 public class Trampoline : MonoBehaviour
 {
@@ -57,9 +58,12 @@ public class Trampoline : MonoBehaviour
     {
         if (hit.point.y > transform.position.y)
         {
-            CharacterController controller = hit.controller;
-            Vector3 bounce = Vector3.up * Mathf.Min(bounceFactor, maxBounceHeight);
-            controller.Move(bounce * Time.deltaTime);
+            FirstPersonController playerController = hit.controller.GetComponent<FirstPersonController>();
+            if (playerController != null)
+            {
+                float bounceHeight = Mathf.Min(bounceFactor, maxBounceHeight);
+                playerController.Bounce(bounceHeight);
+            }
         }
     }
 }

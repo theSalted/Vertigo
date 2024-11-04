@@ -219,11 +219,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   graphicsObject: {fileID: 5393215578589016642}
   MoveSpeed: 10
-  SprintSpeed: 20
+  SprintSpeed: 30
   RotationSpeed: 1
   SpeedChangeRate: 10
-  JumpHeight: 2
-  Gravity: -40
+  JumpHeight: 2.5
+  Gravity: -60
   JumpTimeout: 0.1
   FallTimeout: 0.15
   Grounded: 1

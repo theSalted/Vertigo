@@ -296,6 +296,11 @@ namespace InputAssets
             }
         }
 
+        public void Bounce(float bounceHeight)
+        {
+            _verticalVelocity = bounceHeight; // 设置垂直速度为弹跳高度
+        }
+
         private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
         {
             if (lfAngle < -360f) lfAngle += 360f;

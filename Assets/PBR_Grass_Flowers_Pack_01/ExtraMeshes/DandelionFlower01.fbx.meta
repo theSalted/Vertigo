@@ -1,0 +1,208 @@
+fileFormatVersion: 2
+guid: de764694c84bfef4b8548325e7ed0e60
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: group6_polySurface1
+    100004: group6_polySurface2
+    100006: group6_polySurface3
+    100008: group6_polySurface4
+    100010: group6_polySurface5
+    100012: group6_polySurface6
+    100014: group6_polySurface7
+    100016: group6_polySurface8
+    100018: group8_polySurface1
+    100020: group8_polySurface2
+    100022: group8_polySurface3
+    100024: group8_polySurface4
+    100026: group8_polySurface5
+    100028: group8_polySurface6
+    100030: group8_polySurface7
+    100032: group9_polySurface1
+    100034: group9_polySurface2
+    100036: group9_polySurface3
+    100038: group9_polySurface4
+    100040: group9_polySurface5
+    100042: group9_polySurface6
+    400000: //RootNode
+    400002: group6_polySurface1
+    400004: group6_polySurface2
+    400006: group6_polySurface3
+    400008: group6_polySurface4
+    400010: group6_polySurface5
+    400012: group6_polySurface6
+    400014: group6_polySurface7
+    400016: group6_polySurface8
+    400018: group8_polySurface1
+    400020: group8_polySurface2
+    400022: group8_polySurface3
+    400024: group8_polySurface4
+    400026: group8_polySurface5
+    400028: group8_polySurface6
+    400030: group8_polySurface7
+    400032: group9_polySurface1
+    400034: group9_polySurface2
+    400036: group9_polySurface3
+    400038: group9_polySurface4
+    400040: group9_polySurface5
+    400042: group9_polySurface6
+    2100000: lambert1
+    2300000: group6_polySurface1
+    2300002: group6_polySurface2
+    2300004: group6_polySurface3
+    2300006: group6_polySurface4
+    2300008: group6_polySurface5
+    2300010: group6_polySurface6
+    2300012: group6_polySurface7
+    2300014: group6_polySurface8
+    2300016: group8_polySurface1
+    2300018: group8_polySurface2
+    2300020: group8_polySurface3
+    2300022: group8_polySurface4
+    2300024: group8_polySurface5
+    2300026: group8_polySurface6
+    2300028: group8_polySurface7
+    2300030: group9_polySurface1
+    2300032: group9_polySurface2
+    2300034: group9_polySurface3
+    2300036: group9_polySurface4
+    2300038: group9_polySurface5
+    2300040: group9_polySurface6
+    2300042: //RootNode
+    3300000: group6_polySurface1
+    3300002: group6_polySurface2
+    3300004: group6_polySurface3
+    3300006: group6_polySurface4
+    3300008: group6_polySurface5
+    3300010: group6_polySurface6
+    3300012: group6_polySurface7
+    3300014: group6_polySurface8
+    3300016: group8_polySurface1
+    3300018: group8_polySurface2
+    3300020: group8_polySurface3
+    3300022: group8_polySurface4
+    3300024: group8_polySurface5
+    3300026: group8_polySurface6
+    3300028: group8_polySurface7
+    3300030: group9_polySurface1
+    3300032: group9_polySurface2
+    3300034: group9_polySurface3
+    3300036: group9_polySurface4
+    3300038: group9_polySurface5
+    3300040: group9_polySurface6
+    3300042: //RootNode
+    4300000: group8_polySurface1
+    4300002: group6_polySurface1
+    4300004: group9_polySurface1
+    4300006: group6_polySurface2
+    4300008: group8_polySurface2
+    4300010: group6_polySurface3
+    4300012: group8_polySurface3
+    4300014: group9_polySurface2
+    4300016: group6_polySurface4
+    4300018: group9_polySurface3
+    4300020: group8_polySurface4
+    4300022: group9_polySurface4
+    4300024: group8_polySurface5
+    4300026: group9_polySurface5
+    4300028: group8_polySurface6
+    4300030: group8_polySurface7
+    4300032: group6_polySurface5
+    4300034: group6_polySurface6
+    4300036: group6_polySurface7
+    4300038: group6_polySurface8
+    4300040: group9_polySurface6
+    9500000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: 30690bffd6377dc41aebd4667bab0841, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 1
+    addColliders: 0
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 1
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 155175
+  packageName: PBR Grass Flowers Pack
+  packageVersion: 1.0
+  assetPath: Assets/PBR_Grass_Flowers_Pack_01/ExtraMeshes/DandelionFlower01.fbx
+  uploadId: 339706
