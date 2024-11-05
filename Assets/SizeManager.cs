@@ -37,6 +37,7 @@ public class SizeManager : MonoBehaviour
     public float shrunkFactor { get; private set; }
     public float growthFactor { get; private set; }
 
+    public float shrinkDetectionThreshold = 1.0f;
     private void Awake()
     {
         // Enforce singleton pattern
@@ -95,7 +96,7 @@ public class SizeManager : MonoBehaviour
             {
                 // Assume original scale is 1.0f
                 float playerScale = player.transform.localScale.x;
-                return playerScale < 1.0f;
+                return playerScale < shrinkDetectionThreshold;
             }
             else
             {

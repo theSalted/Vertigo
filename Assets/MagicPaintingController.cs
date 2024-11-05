@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using InputAssets;
-using Unity.VisualScripting;
-using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
 public class LinkedPortalController : MonoBehaviour
