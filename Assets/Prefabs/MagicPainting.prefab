@@ -86,6 +86,7 @@ MonoBehaviour:
   painting: {fileID: 0}
   fov: 17.2
   rotationYOffset: 0
+  targetYPos: 5.68
   portalWidth: 2
   portalHeight: 4
   viewingDistance: 10

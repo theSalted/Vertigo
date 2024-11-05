@@ -23,8 +23,6 @@ public class LinkedPortalController : MonoBehaviour
     public float fov = 17.2f;
     public float rotationYOffset = 0.0f;
 
-    public float targetYPos = 5.6f;
-
     [Tooltip("Detection Volume Settings")]
     public float portalWidth = 2.0f;      // Width of the portal (X-axis)
     public float portalHeight = 4.0f;     // Height of the portal (Y-axis)
@@ -159,10 +157,13 @@ public class LinkedPortalController : MonoBehaviour
 
         if (state == PortalState.Leader)
         {
+            // Leader portal manages the transition
             if ((isPlayerInRange || linkedPortal.isPlayerInRange) && !isTransitioning)
             {
                 Transform targetPortalTransform = isPlayerInRange ? transform : linkedPortal.transform;
 
+                
+                
                 float targetViewHeight = isPlayerInRange ? painting.viewingHeight : linkedPortal.painting.viewingHeight;
 
                 Vector3 toPlayer = playerCam.transform.position - targetPortalTransform.position;
@@ -170,20 +171,15 @@ public class LinkedPortalController : MonoBehaviour
                 Vector3 rendezvousPos = targetPortalTransform.position + targetPortalTransform.forward * viewingDistance * side;
                 rendezvousPos += targetPortalTransform.up * targetViewHeight;
 
+                float targetPortalRotateY = side == 1 ? targetPortalTransform.eulerAngles.y + 180 : targetPortalTransform.eulerAngles.y;
                 // Define the coordinates for the transition
                 Vector3 startPosition = playerController.transform.position;
                 Quaternion startRotation = playerController.transform.rotation;
 
                 // Coordinates to move to in the first stage (linked portal's painting position)
                 Vector3 stage1Position = rendezvousPos;
-                stage1Position.y = targetYPos;
-
-                // Calculate the direction from stage1Position to the portal's center
-                Vector3 portalTargetPosition = targetPortalTransform.position;
-                Vector3 directionToPortal = portalTargetPosition - stage1Position;
-
-                // Calculate rotation to look directly at the portal
-                Quaternion stage1Rotation = Quaternion.LookRotation(directionToPortal);
+                stage1Position.y = playerController.transform.position.y; // Keep player's current Y position
+                Quaternion stage1Rotation = Quaternion.Euler(0, targetPortalRotateY, 0);
 
                 // Coordinates to move to in the second stage (this portal's position, slightly forward)
                 Vector3 stage2Position = targetPortalTransform.position + targetPortalTransform.forward * pushDistance;
@@ -217,20 +213,6 @@ public class LinkedPortalController : MonoBehaviour
             isTransitioning = false;
             linkedPortal.isTransitioning = false;
             readyToEndTransition = false;
-        }
-
-        // get space press
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            // switch mode
-            if (mode == PortalMode.Portal)
-            {
-                mode = PortalMode.Painting;
-            }
-            else
-            {
-                mode = PortalMode.Portal;
-            }
         }
 
         if (debugMode)
@@ -268,32 +250,13 @@ public class LinkedPortalController : MonoBehaviour
 
         float elapsedTime = 0f;
 
-        // Record initial yaw and pitch
-        float startYaw = playerController.GetYaw();
-        float startPitch = playerController.GetPitch();
-
-        // Get target yaw and pitch from stage1Rot
-        Vector3 targetEulerAngles = stage1Rot.eulerAngles;
-
-        // Calculate the shortest delta angle to avoid wrapping
-        float deltaYaw = Mathf.DeltaAngle(startYaw, targetEulerAngles.y);
-        float deltaPitch = Mathf.DeltaAngle(startPitch, targetEulerAngles.x);
-
-        float targetYaw = startYaw + deltaYaw;
-        float targetPitch = startPitch + deltaPitch;
-
-        // Stage 1: Move to stage1Pos and interpolate yaw and pitch
+        // Stage 1: Move to stage1Pos and stage1Rot
         while (elapsedTime < transitionDuration)
         {
             float t = elapsedTime / transitionDuration;
 
             playerController.transform.position = Vector3.Lerp(startPos, stage1Pos, t);
-
-            float currentYaw = Mathf.LerpAngle(startYaw, targetYaw, t);
-            float currentPitch = Mathf.LerpAngle(startPitch, targetPitch, t);
-
-            // Update yaw and pitch
-            playerController.SetYawAndPitch(currentYaw, currentPitch);
+            playerController.transform.rotation = Quaternion.Slerp(startRot, stage1Rot, t);
 
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -301,12 +264,14 @@ public class LinkedPortalController : MonoBehaviour
 
         // Ensure final position and rotation are set
         playerController.transform.position = stage1Pos;
-        playerController.SetYawAndPitch(targetYaw, targetPitch);
+        playerController.transform.rotation = stage1Rot;
 
         // Switch portal mode from painting to portal
         mode = PortalMode.Portal;
-        linkedPortal.mode = mode;   
-
+        linkedPortal.mode = mode;
+        // wait for a short time before pushing the player
+        // yield return new WaitForSeconds(0.5f);
+        // yield return new WaitForSecondsRealtime(120f);
         // Stage 2: Move to stage2Pos
         elapsedTime = 0f;
 
@@ -322,10 +287,16 @@ public class LinkedPortalController : MonoBehaviour
 
         // Ensure final position is set
         playerController.transform.position = stage2Pos;
-
+        // rotation should be zero
         // Re-enable player movement and rotation
+        playerController.ResetYawAndPitch();
         playerController.allowCameraRotation = true;
         playerController.allowMovement = true;
+
+        // Keep isTransitioning = true to prevent re-triggering during testing
+        // Uncomment the lines below when ready to re-enable detection
+        // yield return new WaitForSeconds(0.5f);
+        // readyToEndTransition = true;
     }
 
     /// <summary>
