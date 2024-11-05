@@ -386,5 +386,46 @@ namespace InputAssets
             _yaw = transform.eulerAngles.y;
             _pitch = CinemachineCameraTarget.transform.localEulerAngles.x;
         }
+
+        public void LevelPitch()
+        {
+            _yaw = 0.0f;
+            _pitch = 0.0f;
+        }
+
+        public void SetRotation(Quaternion rotation)
+        {
+            // Decompose rotation into yaw and pitch
+            Vector3 euler = rotation.eulerAngles;
+            _yaw = euler.y;
+            _pitch = euler.x;
+
+            // Clamp pitch
+            _pitch = ClampAngle(_pitch, BottomClamp, TopClamp);
+
+            // Update the player's rotation
+            transform.rotation = Quaternion.Euler(0.0f, _yaw, 0.0f);
+            CinemachineCameraTarget.transform.localRotation = Quaternion.Euler(_pitch, 0.0f, 0.0f);
+        }
+
+        public float GetYaw()
+        {
+            return _yaw;
+        }
+
+        public float GetPitch()
+        {
+            return _pitch;
+        }
+
+        public void SetYawAndPitch(float yaw, float pitch)
+        {
+            _yaw = yaw;
+            _pitch = ClampAngle(pitch, BottomClamp, TopClamp);
+
+            // Apply rotation
+            transform.rotation = Quaternion.Euler(0.0f, _yaw, 0.0f);
+            CinemachineCameraTarget.transform.localRotation = Quaternion.Euler(_pitch, 0.0f, 0.0f);
+        }
     }
 }
