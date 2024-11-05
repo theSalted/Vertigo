@@ -298,7 +298,23 @@ namespace InputAssets
 
         public void Bounce(float bounceHeight)
         {
-            _verticalVelocity = bounceHeight; // 设置垂直速度为弹跳高度
+            // Ensure the player is grounded before applying the bounce
+            if (Grounded)
+            {
+                // Set the vertical velocity to achieve the desired bounce height
+                _verticalVelocity = Mathf.Sqrt(bounceHeight * -2f * Gravity);
+            }
+        }
+        void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                FirstPersonController playerController = collision.gameObject.GetComponent<FirstPersonController>();
+                if (playerController != null)
+                {
+                    playerController.Bounce(5.0f); // Adjust the bounce height as needed
+                }
+            }
         }
 
         private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
